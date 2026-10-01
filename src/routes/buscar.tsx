@@ -3,11 +3,11 @@ import { SearchX } from "lucide-react";
 import { SearchForm } from "@/components/site/SearchForm";
 import { findCategory } from "@/lib/categories";
 
-type Search = { q?: string; local?: string; categoria?: string };
+type Search = { q?: string | undefined; local?: string | undefined; categoria?: string | undefined };
 const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.slice(0, 100) : undefined);
 
 export const Route = createFileRoute("/buscar")({
-  validateSearch: (s: Record<string, unknown>): Search => ({ q: str(s.q), local: str(s.local), categoria: str(s.categoria) }),
+  validateSearch: (s: Record<string, unknown>): Search => ({ q: str(s["q"]), local: str(s["local"]), categoria: str(s["categoria"]) }),
   head: () => ({
     meta: [
       { title: "Buscar profissionais — A Seu Serviço" },

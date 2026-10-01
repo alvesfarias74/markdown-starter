@@ -2,7 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { MapPin, Search } from "lucide-react";
 import { useState } from "react";
 
-export function SearchForm({ initialQ = "", initialLocal = "" }: { initialQ?: string; initialLocal?: string }) {
+export function SearchForm({ initialQ = "", initialLocal = "" }: { initialQ?: string | undefined; initialLocal?: string | undefined }) {
   const navigate = useNavigate();
   const [q, setQ] = useState(initialQ);
   const [local, setLocal] = useState(initialLocal);
