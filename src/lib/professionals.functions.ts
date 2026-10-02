@@ -1,5 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
   accountSchema,
@@ -68,9 +70,9 @@ export const saveAccount = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-async function ensurePro(supabase: Parameters<Parameters<ReturnType<typeof createServerFn>["handler"]>[0]>[0] extends never ? never : any, userId: string) {
+async function ensurePro(supabase: SupabaseClient<Database>, userId: string) {
   const { data: existing } = await supabase.from("professionals").select("id").eq("user_id", userId).maybeSingle();
-  if (existing) return existing.id as string;
+  if (existing) return existing.id;
   const { data: account } = await supabase.from("profiles").select("full_name").eq("id", userId).maybeSingle();
   const { data: created, error } = await supabase
     .from("professionals")
@@ -78,7 +80,7 @@ async function ensurePro(supabase: Parameters<Parameters<ReturnType<typeof creat
     .select("id")
     .single();
   if (error) throw new Error("Não foi possível iniciar seu perfil.");
-  return created.id as string;
+  return created.id;
 }
 
 export const saveProfessional = createServerFn({ method: "POST" })
