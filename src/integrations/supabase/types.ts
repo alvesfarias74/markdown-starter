@@ -14,16 +14,206 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      portfolio_items: {
+        Row: {
+          after_photo: string | null
+          before_photo: string | null
+          category_slug: string | null
+          created_at: string
+          description: string | null
+          id: string
+          photos: string[]
+          position: number
+          professional_id: string
+          title: string
+        }
+        Insert: {
+          after_photo?: string | null
+          before_photo?: string | null
+          category_slug?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          photos?: string[]
+          position?: number
+          professional_id: string
+          title: string
+        }
+        Update: {
+          after_photo?: string | null
+          before_photo?: string | null
+          category_slug?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          photos?: string[]
+          position?: number
+          professional_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portfolio_items_professional_id_fkey"
+            columns: ["professional_id"]
+            isOneToOne: false
+            referencedRelation: "professionals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      professionals: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          category_slugs: string[]
+          city: string | null
+          created_at: string
+          display_name: string
+          experience_range: string | null
+          experience_text: string | null
+          headline: string | null
+          id: string
+          is_available: boolean
+          is_verified: boolean
+          max_distance_km: number | null
+          neighborhoods: string[]
+          price_from: number | null
+          price_unit: string | null
+          published_at: string | null
+          rating_avg: number | null
+          rating_count: number
+          schedule: Json
+          services_count: number
+          slug: string
+          specialties: string[]
+          state: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          category_slugs?: string[]
+          city?: string | null
+          created_at?: string
+          display_name: string
+          experience_range?: string | null
+          experience_text?: string | null
+          headline?: string | null
+          id?: string
+          is_available?: boolean
+          is_verified?: boolean
+          max_distance_km?: number | null
+          neighborhoods?: string[]
+          price_from?: number | null
+          price_unit?: string | null
+          published_at?: string | null
+          rating_avg?: number | null
+          rating_count?: number
+          schedule?: Json
+          services_count?: number
+          slug: string
+          specialties?: string[]
+          state?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          category_slugs?: string[]
+          city?: string | null
+          created_at?: string
+          display_name?: string
+          experience_range?: string | null
+          experience_text?: string | null
+          headline?: string | null
+          id?: string
+          is_available?: boolean
+          is_verified?: boolean
+          max_distance_km?: number | null
+          neighborhoods?: string[]
+          price_from?: number | null
+          price_unit?: string | null
+          published_at?: string | null
+          rating_avg?: number | null
+          rating_count?: number
+          schedule?: Json
+          services_count?: number
+          slug?: string
+          specialties?: string[]
+          state?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+          phone: string | null
+          terms_accepted_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string
+          id: string
+          phone?: string | null
+          terms_accepted_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          terms_accepted_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "professional" | "client"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +340,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "professional", "client"],
+    },
   },
 } as const
