@@ -26,7 +26,7 @@ function SignupPage() {
   const [sent, setSent] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => { if (data.session) navigate({ to: "/painel/perfil", replace: true }); });
+    supabase.auth.getSession().then(({ data }) => { if (data.session) navigate({ to: "/painel/perfil", search: { passo: 1 }, replace: true }); });
   }, [navigate]);
 
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement>) =>

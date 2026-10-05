@@ -3,6 +3,7 @@ import { BadgeCheck, CalendarCheck, MessageSquareQuote, Star } from "lucide-reac
 import hero from "@/assets/hero.jpg";
 import { SearchForm } from "@/components/site/SearchForm";
 import { CategoryGrid } from "@/components/site/CategoryGrid";
+import { NoSocialCallout, ProCallout } from "@/components/site/ProCallout";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -66,16 +67,9 @@ function Index() {
         </ol>
       </section>
 
-      <section className="mx-auto mt-20 max-w-6xl px-4">
-        <div className="flex flex-col items-start justify-between gap-6 rounded-3xl bg-ink p-8 text-ink-foreground sm:p-12 md:flex-row md:items-center">
-          <div>
-            <h2 className="text-3xl font-bold sm:text-4xl">Você presta serviços?</h2>
-            <p className="mt-2 text-lg opacity-80">Cadastre-se e encontre novos clientes.</p>
-          </div>
-          <Link to="/para-profissionais" className="rounded-2xl bg-highlight px-6 py-4 font-semibold text-highlight-foreground hover:brightness-105">
-            Quero oferecer meus serviços
-          </Link>
-        </div>
+      <section className="mx-auto mt-20 max-w-6xl space-y-4 px-4">
+        <ProCallout />
+        <NoSocialCallout />
       </section>
     </>
   );

@@ -13,3 +13,8 @@
 - Service categories live in `src/lib/categories.ts` keyed by stable slugs — URLs (`/buscar?categoria=`) depend on slugs; later migrate to a DB table with the same slugs.
 - Site chrome (header/footer) is rendered once in `__root.tsx` — avoids duplication across pages.
 - Search state lives in `/buscar` URL params (q, local, categoria) — shareable and SSR-friendly; results will come from the real professionals backend, never fake data.
+- Professional storefront lives in `professionals` + `portfolio_items`; private contact data in `profiles`; roles only in `user_roles` (has_role) — prevents privilege escalation and keeps phone/email off public reads.
+- Platform-controlled columns (is_verified, ratings, services_count) are locked by a DB trigger for end users — future stages update them server-side only.
+- Media is in the private `professional-media` bucket under `{userId}/...`; pages show signed URLs generated server-side — workspace blocks public buckets.
+- All professional reads/writes go through `src/lib/professionals.functions.ts` (zod-validated server functions); shared rules (completeness, publish requirements, options) live in `src/lib/professional.ts`.
+- Profile wizard is `/painel/perfil?passo=N`; review step renders the same `ProfessionalProfileView` as the public `/profissional/$slug` page — preview must match public page.

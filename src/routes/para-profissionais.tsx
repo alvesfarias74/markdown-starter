@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { NoSocialCallout, ProCallout } from "@/components/site/ProCallout";
 import { BadgeCheck, Images, Inbox, Star } from "lucide-react";
 
 export const Route = createFileRoute("/para-profissionais")({
@@ -23,7 +24,7 @@ const perks = [
 function ProPage() {
   return (
     <section className="mx-auto max-w-6xl px-4 pt-12">
-      <h1 className="max-w-2xl text-4xl font-extrabold sm:text-6xl">Você presta serviços?</h1>
+      <h1 className="max-w-2xl text-4xl font-extrabold sm:text-6xl">Sua vitrine profissional, de graça.</h1>
       <p className="mt-4 max-w-xl text-lg text-muted-foreground">Cadastre-se e encontre novos clientes.</p>
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         {perks.map(({ icon: Icon, title, text }) => (
@@ -34,9 +35,9 @@ function ProPage() {
           </div>
         ))}
       </div>
-      <div className="mt-10 rounded-3xl bg-accent p-8 text-accent-foreground">
-        <p className="font-display text-2xl font-bold">Cadastro de profissionais em breve</p>
-        <p className="mt-1">Estamos preparando o cadastro. Logo você poderá criar sua vitrine.</p>
+      <div className="mt-10 space-y-4">
+        <ProCallout />
+        <NoSocialCallout />
       </div>
     </section>
   );

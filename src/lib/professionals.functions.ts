@@ -89,10 +89,10 @@ export const saveProfessional = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     await ensurePro(supabase, userId);
-    const patch: Record<string, unknown> = { ...data };
+    const patch: Database["public"]["Tables"]["professionals"]["Update"] = Object.fromEntries(Object.entries(data).filter(([, v]) => v !== undefined)) as Database["public"]["Tables"]["professionals"]["Update"];
     if (data.specialties) {
-      patch["category_slugs"] = [...new Set(data.specialties.map(categoryOfService))];
-      if (!("headline" in data)) patch["headline"] = data.specialties[0] ?? null;
+      patch.category_slugs = [...new Set(data.specialties.map(categoryOfService))];
+      if (!("headline" in data)) patch.headline = data.specialties[0] ?? null;
     }
     if (data.avatar_url && !data.avatar_url.startsWith(`${userId}/`)) throw new Error("Arquivo inválido.");
     const { error } = await supabase.from("professionals").update(patch).eq("user_id", userId);
