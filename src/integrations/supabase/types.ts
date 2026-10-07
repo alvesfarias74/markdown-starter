@@ -14,6 +14,79 @@ export type Database = {
   }
   public: {
     Tables: {
+      jobs: {
+        Row: {
+          amount: number
+          client_id: string
+          completed_at: string | null
+          created_at: string
+          id: string
+          payout_status: string
+          platform_fee: number
+          professional_id: string
+          professional_net: number
+          quote_id: string | null
+          request_id: string | null
+          scheduled_for: string | null
+          status: string
+          title: string
+        }
+        Insert: {
+          amount?: number
+          client_id: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          payout_status?: string
+          platform_fee?: number
+          professional_id: string
+          professional_net?: number
+          quote_id?: string | null
+          request_id?: string | null
+          scheduled_for?: string | null
+          status?: string
+          title: string
+        }
+        Update: {
+          amount?: number
+          client_id?: string
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          payout_status?: string
+          platform_fee?: number
+          professional_id?: string
+          professional_net?: number
+          quote_id?: string | null
+          request_id?: string | null
+          scheduled_for?: string | null
+          status?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "jobs_professional_id_fkey"
+            columns: ["professional_id"]
+            isOneToOne: false
+            referencedRelation: "professionals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "jobs_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "jobs_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "service_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       portfolio_items: {
         Row: {
           after_photo: string | null
@@ -178,6 +251,161 @@ export type Database = {
         }
         Relationships: []
       }
+      quotes: {
+        Row: {
+          amount: number | null
+          created_at: string
+          id: string
+          message: string
+          professional_id: string
+          request_id: string
+          status: string
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string
+          id?: string
+          message?: string
+          professional_id: string
+          request_id: string
+          status?: string
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string
+          id?: string
+          message?: string
+          professional_id?: string
+          request_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_professional_id_fkey"
+            columns: ["professional_id"]
+            isOneToOne: false
+            referencedRelation: "professionals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quotes_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "service_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reviews: {
+        Row: {
+          client_id: string
+          client_name: string
+          comment: string | null
+          created_at: string
+          id: string
+          job_id: string | null
+          professional_id: string
+          rating: number
+          response: string | null
+          response_at: string | null
+        }
+        Insert: {
+          client_id: string
+          client_name?: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          job_id?: string | null
+          professional_id: string
+          rating: number
+          response?: string | null
+          response_at?: string | null
+        }
+        Update: {
+          client_id?: string
+          client_name?: string
+          comment?: string | null
+          created_at?: string
+          id?: string
+          job_id?: string | null
+          professional_id?: string
+          rating?: number
+          response?: string | null
+          response_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: true
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_professional_id_fkey"
+            columns: ["professional_id"]
+            isOneToOne: false
+            referencedRelation: "professionals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_requests: {
+        Row: {
+          category_slug: string | null
+          city: string | null
+          client_id: string
+          created_at: string
+          description: string
+          desired_date: string | null
+          id: string
+          neighborhood: string | null
+          service_name: string
+          state: string | null
+          status: string
+          target_professional_id: string | null
+          urgency: string
+        }
+        Insert: {
+          category_slug?: string | null
+          city?: string | null
+          client_id: string
+          created_at?: string
+          description?: string
+          desired_date?: string | null
+          id?: string
+          neighborhood?: string | null
+          service_name: string
+          state?: string | null
+          status?: string
+          target_professional_id?: string | null
+          urgency?: string
+        }
+        Update: {
+          category_slug?: string | null
+          city?: string | null
+          client_id?: string
+          created_at?: string
+          description?: string
+          desired_date?: string | null
+          id?: string
+          neighborhood?: string | null
+          service_name?: string
+          state?: string | null
+          status?: string
+          target_professional_id?: string | null
+          urgency?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_requests_target_professional_id_fkey"
+            columns: ["target_professional_id"]
+            isOneToOne: false
+            referencedRelation: "professionals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -199,6 +427,50 @@ export type Database = {
         }
         Relationships: []
       }
+      verification_requests: {
+        Row: {
+          document_path: string
+          id: string
+          notes: string | null
+          professional_id: string
+          reviewed_at: string | null
+          reviewer_notes: string | null
+          selfie_path: string | null
+          status: string
+          submitted_at: string
+        }
+        Insert: {
+          document_path: string
+          id?: string
+          notes?: string | null
+          professional_id: string
+          reviewed_at?: string | null
+          reviewer_notes?: string | null
+          selfie_path?: string | null
+          status?: string
+          submitted_at?: string
+        }
+        Update: {
+          document_path?: string
+          id?: string
+          notes?: string | null
+          professional_id?: string
+          reviewed_at?: string | null
+          reviewer_notes?: string | null
+          selfie_path?: string | null
+          status?: string
+          submitted_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_requests_professional_id_fkey"
+            columns: ["professional_id"]
+            isOneToOne: true
+            referencedRelation: "professionals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -211,6 +483,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      refresh_professional_stats: { Args: { _pro: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "moderator" | "professional" | "client"

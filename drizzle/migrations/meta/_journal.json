@@ -8,6 +8,13 @@
       "when": 1790974775116,
       "tag": "0000_professionals_module",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791372276350,
+      "tag": "0001_dashboard_module",
+      "breakpoints": true
     }
   ]
 }
