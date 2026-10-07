@@ -144,6 +144,20 @@ export const addPortfolioItem = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+export const updatePortfolioItem = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => portfolioItemSchema.extend({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    const { supabase, userId } = context;
+    const { id, ...rest } = data;
+    const all = [...rest.photos, rest.before_photo, rest.after_photo].filter(Boolean) as string[];
+    if (all.some((p) => !p.startsWith(`${userId}/`))) throw new Error("Arquivo inválido.");
+    if (!all.length) throw new Error("Adicione pelo menos uma foto.");
+    const { error } = await supabase.from("portfolio_items").update(rest).eq("id", id);
+    if (error) throw new Error("Não foi possível salvar o trabalho.");
+    return { ok: true };
+  });
+
 export const deletePortfolioItem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
