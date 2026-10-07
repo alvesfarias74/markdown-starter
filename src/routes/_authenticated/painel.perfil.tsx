@@ -1,12 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useMemo, useRef, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
-import { Camera, ImagePlus, Search, Trash2, X } from "lucide-react";
+import { Camera, Search, X } from "lucide-react";
 import { myProQuery } from "@/lib/my-pro-query";
 import {
-  addPortfolioItem, deletePortfolioItem, publishProfessional, saveAccount, saveProfessional,
+  publishProfessional, saveAccount, saveProfessional,
 } from "@/lib/professionals.functions";
 import {
   BR_STATES, EXPERIENCE_OPTIONS, PRICE_UNITS, WEEK_DAYS, type ProfessionalPatch, type ProfessionalView,
@@ -15,6 +15,7 @@ import { SERVICES, normalize, categoryOfService } from "@/lib/services";
 import { uploadImage } from "@/lib/upload";
 import { Chip, Field, inputClass } from "@/components/site/Field";
 import { ProfessionalProfileView } from "@/components/pro/ProfessionalProfileView";
+import { PickButton, PortfolioManager } from "@/components/pro/PortfolioManager";
 import { Progress } from "@/components/ui/progress";
 
 const TOTAL = 10;
@@ -286,95 +287,11 @@ function StepPrice({ data, savePatch, go, passo }: StepProps) {
 
 /* 8 — Portfólio */
 function StepPortfolio({ data, go, refresh, passo }: StepProps) {
-  const add = useServerFn(addPortfolioItem);
-  const del = useServerFn(deletePortfolioItem);
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const [photos, setPhotos] = useState<{ path: string; url: string }[]>([]);
-  const [before, setBefore] = useState<{ path: string; url: string } | null>(null);
-  const [after, setAfter] = useState<{ path: string; url: string } | null>(null);
-  const [uploading, setUploading] = useState(false);
-  const { busy, run } = useBusy();
   const items = data.pro?.portfolio ?? [];
-
-  const up = async (file: File | undefined, folder: string) => {
-    if (!file) return null;
-    setUploading(true);
-    try { const path = await uploadImage(data.userId, file, folder); return { path, url: URL.createObjectURL(file) }; }
-    catch (e) { toast.error((e as Error).message); return null; }
-    finally { setUploading(false); }
-  };
-
-  const saveItem = run(async () => {
-    if (title.trim().length < 2) return void toast.error("Dê um título ao trabalho.");
-    if (!photos.length && !before && !after) return void toast.error("Adicione pelo menos uma foto.");
-    const cat = data.pro?.specialties[0] ? categoryOfService(data.pro.specialties[0]) : null;
-    try {
-      await add({ data: { title, description: desc.trim() || null, category_slug: cat, photos: photos.map((p) => p.path), before_photo: before?.path ?? null, after_photo: after?.path ?? null } });
-      setTitle(""); setDesc(""); setPhotos([]); setBefore(null); setAfter(null);
-      await refresh();
-      toast.success("Trabalho adicionado!");
-    } catch { toast.error("Não foi possível salvar o trabalho."); }
-  });
-
   return (
     <StepShell title="Quer mostrar seu trabalho?" subtitle="Fotos de serviços que você já fez ajudam o cliente a conhecer seu trabalho." passo={passo} go={go} onNext={() => go(9)} nextLabel={items.length ? "Continuar" : "Continuar sem portfólio"}>
-      {items.length > 0 && (
-        <ul className="space-y-2">
-          {items.map((i) => (
-            <li key={i.id} className="flex items-center gap-3 rounded-xl border p-2">
-              {(i.photos[0] ?? i.after_photo ?? i.before_photo) && <img src={i.photos[0] ?? i.after_photo ?? i.before_photo ?? ""} alt="" className="h-14 w-14 rounded-lg object-cover" />}
-              <span className="flex-1 font-medium">{i.title}</span>
-              <button type="button" aria-label="Remover" onClick={async () => { await del({ data: { id: i.id } }); await refresh(); }} className="p-2 text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
-            </li>
-          ))}
-        </ul>
-      )}
-      <div className="space-y-4 rounded-2xl bg-muted p-4">
-        <p className="font-semibold">Novo trabalho</p>
-        <Field label="Título"><input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Instalação de ventilador de teto" className={inputClass} maxLength={100} /></Field>
-        <Field label="Descrição (opcional)"><textarea value={desc} onChange={(e) => setDesc(e.target.value)} rows={2} className={inputClass} maxLength={600} /></Field>
-        <div className="grid grid-cols-2 gap-3">
-          <PhotoSlot label="Antes" value={before?.url} onPick={async (f) => setBefore(await up(f, "portfolio"))} onClear={() => setBefore(null)} />
-          <PhotoSlot label="Depois" value={after?.url} onPick={async (f) => setAfter(await up(f, "portfolio"))} onClear={() => setAfter(null)} />
-        </div>
-        <div>
-          <p className="mb-2 text-sm font-semibold">Outras fotos</p>
-          <div className="flex flex-wrap gap-2">
-            {photos.map((p) => <img key={p.path} src={p.url} alt="" className="h-20 w-20 rounded-lg object-cover" />)}
-            {photos.length < 8 && (
-              <PickButton onPick={async (f) => { const r = await up(f, "portfolio"); if (r) setPhotos((x) => [...x, r]); }}>
-                <span className="grid h-20 w-20 place-items-center rounded-lg border border-dashed bg-card text-muted-foreground"><ImagePlus className="h-6 w-6" /></span>
-              </PickButton>
-            )}
-          </div>
-        </div>
-        <button type="button" onClick={saveItem} disabled={busy || uploading} className="w-full rounded-xl bg-ink py-3 font-semibold text-ink-foreground disabled:opacity-60">{uploading ? "Enviando foto..." : busy ? "Salvando..." : "Adicionar ao portfólio"}</button>
-      </div>
+      <PortfolioManager userId={data.userId} view={items} raw={data.portfolioRaw} defaultCategory={data.pro?.specialties[0] ? categoryOfService(data.pro.specialties[0]) : null} onChange={refresh} />
     </StepShell>
-  );
-}
-
-function PickButton({ onPick, children }: { onPick: (f: File | undefined) => void; children: ReactNode }) {
-  const ref = useRef<HTMLInputElement>(null);
-  return (
-    <button type="button" onClick={() => ref.current?.click()}>
-      {children}
-      <input ref={ref} type="file" accept="image/*" hidden onChange={(e) => { onPick(e.target.files?.[0]); e.target.value = ""; }} />
-    </button>
-  );
-}
-
-function PhotoSlot({ label, value, onPick, onClear }: { label: string; value: string | undefined; onPick: (f: File | undefined) => void; onClear: () => void }) {
-  return (
-    <div className="relative">
-      <PickButton onPick={onPick}>
-        <span className="grid aspect-square w-full place-items-center overflow-hidden rounded-xl border border-dashed bg-card text-sm text-muted-foreground">
-          {value ? <img src={value} alt={label} className="h-full w-full object-cover" /> : <span className="flex flex-col items-center gap-1"><Camera className="h-6 w-6" />{label}</span>}
-        </span>
-      </PickButton>
-      {value && <button type="button" onClick={onClear} aria-label="Remover foto" className="absolute right-2 top-2 rounded-full bg-card p-1"><X className="h-4 w-4" /></button>}
-    </div>
   );
 }
 

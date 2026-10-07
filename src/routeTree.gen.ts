@@ -18,6 +18,7 @@ import { Route as CategoriasRouteImport } from './routes/categorias'
 import { Route as ParaProfissionaisRouteImport } from './routes/para-profissionais'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as TermosRouteImport } from './routes/termos'
+import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as ProfissionalSlugRouteImport } from './routes/profissional.$slug'
 import { Route as AuthenticatedPainelIndexRouteImport } from './routes/_authenticated/painel.index'
 import { Route as AuthenticatedPainelPerfilRouteImport } from './routes/_authenticated/painel.perfil'
@@ -66,6 +67,11 @@ const TermosRoute = TermosRouteImport.update({
   path: '/termos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const ProfissionalSlugRoute = ProfissionalSlugRouteImport.update({
   id: '/profissional/$slug',
   path: '/profissional/$slug',
@@ -73,15 +79,15 @@ const ProfissionalSlugRoute = ProfissionalSlugRouteImport.update({
 } as any)
 const AuthenticatedPainelIndexRoute =
   AuthenticatedPainelIndexRouteImport.update({
-    id: '/painel/',
-    path: '/painel/',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedPainelRoute,
   } as any)
 const AuthenticatedPainelPerfilRoute =
   AuthenticatedPainelPerfilRouteImport.update({
-    id: '/painel/perfil',
-    path: '/painel/perfil',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/perfil',
+    path: '/perfil',
+    getParentRoute: () => AuthenticatedPainelRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/para-profissionais': typeof ParaProfissionaisRoute
   '/privacidade': typeof PrivacidadeRoute
   '/termos': typeof TermosRoute
+  '/painel': typeof AuthenticatedPainelRouteWithChildren
   '/profissional/$slug': typeof ProfissionalSlugRoute
   '/painel/perfil': typeof AuthenticatedPainelPerfilRoute
   '/painel/': typeof AuthenticatedPainelIndexRoute
@@ -121,6 +128,7 @@ export interface FileRoutesById {
   '/para-profissionais': typeof ParaProfissionaisRoute
   '/privacidade': typeof PrivacidadeRoute
   '/termos': typeof TermosRoute
+  '/_authenticated/painel': typeof AuthenticatedPainelRouteWithChildren
   '/profissional/$slug': typeof ProfissionalSlugRoute
   '/_authenticated/painel/perfil': typeof AuthenticatedPainelPerfilRoute
   '/_authenticated/painel/': typeof AuthenticatedPainelIndexRoute
@@ -136,6 +144,7 @@ export interface FileRouteTypes {
     | '/para-profissionais'
     | '/privacidade'
     | '/termos'
+    | '/painel'
     | '/profissional/$slug'
     | '/painel/perfil'
     | '/painel/'
@@ -163,6 +172,7 @@ export interface FileRouteTypes {
     | '/para-profissionais'
     | '/privacidade'
     | '/termos'
+    | '/_authenticated/painel'
     | '/profissional/$slug'
     | '/_authenticated/painel/perfil'
     | '/_authenticated/painel/'
@@ -246,6 +256,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/painel': {
+      id: '/_authenticated/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof AuthenticatedPainelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/profissional/$slug': {
       id: '/profissional/$slug'
       path: '/profissional/$slug'
@@ -255,29 +272,40 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/painel/': {
       id: '/_authenticated/painel/'
-      path: '/painel'
+      path: '/'
       fullPath: '/painel/'
       preLoaderRoute: typeof AuthenticatedPainelIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedPainelRoute
     }
     '/_authenticated/painel/perfil': {
       id: '/_authenticated/painel/perfil'
-      path: '/painel/perfil'
+      path: '/perfil'
       fullPath: '/painel/perfil'
       preLoaderRoute: typeof AuthenticatedPainelPerfilRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedPainelRoute
     }
   }
 }
 
-interface AuthenticatedRouteRouteChildren {
+interface AuthenticatedPainelRouteChildren {
   AuthenticatedPainelPerfilRoute: typeof AuthenticatedPainelPerfilRoute
   AuthenticatedPainelIndexRoute: typeof AuthenticatedPainelIndexRoute
 }
 
-const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+const AuthenticatedPainelRouteChildren: AuthenticatedPainelRouteChildren = {
   AuthenticatedPainelPerfilRoute: AuthenticatedPainelPerfilRoute,
   AuthenticatedPainelIndexRoute: AuthenticatedPainelIndexRoute,
+}
+
+const AuthenticatedPainelRouteWithChildren =
+  AuthenticatedPainelRoute._addFileChildren(AuthenticatedPainelRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedPainelRoute: typeof AuthenticatedPainelRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedPainelRoute: AuthenticatedPainelRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
