@@ -21,7 +21,13 @@ import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as ProfissionalSlugRouteImport } from './routes/profissional.$slug'
 import { Route as AuthenticatedPainelIndexRouteImport } from './routes/_authenticated/painel.index'
+import { Route as AuthenticatedPainelAvaliacoesRouteImport } from './routes/_authenticated/painel.avaliacoes'
+import { Route as AuthenticatedPainelDisponibilidadeRouteImport } from './routes/_authenticated/painel.disponibilidade'
+import { Route as AuthenticatedPainelGanhosRouteImport } from './routes/_authenticated/painel.ganhos'
 import { Route as AuthenticatedPainelPerfilRouteImport } from './routes/_authenticated/painel.perfil'
+import { Route as AuthenticatedPainelPortfolioRouteImport } from './routes/_authenticated/painel.portfolio'
+import { Route as AuthenticatedPainelServicosRouteImport } from './routes/_authenticated/painel.servicos'
+import { Route as AuthenticatedPainelVerificacaoRouteImport } from './routes/_authenticated/painel.verificacao'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -83,10 +89,46 @@ const AuthenticatedPainelIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedPainelRoute,
   } as any)
+const AuthenticatedPainelAvaliacoesRoute =
+  AuthenticatedPainelAvaliacoesRouteImport.update({
+    id: '/avaliacoes',
+    path: '/avaliacoes',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelDisponibilidadeRoute =
+  AuthenticatedPainelDisponibilidadeRouteImport.update({
+    id: '/disponibilidade',
+    path: '/disponibilidade',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelGanhosRoute =
+  AuthenticatedPainelGanhosRouteImport.update({
+    id: '/ganhos',
+    path: '/ganhos',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
 const AuthenticatedPainelPerfilRoute =
   AuthenticatedPainelPerfilRouteImport.update({
     id: '/perfil',
     path: '/perfil',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelPortfolioRoute =
+  AuthenticatedPainelPortfolioRouteImport.update({
+    id: '/portfolio',
+    path: '/portfolio',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelServicosRoute =
+  AuthenticatedPainelServicosRouteImport.update({
+    id: '/servicos',
+    path: '/servicos',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelVerificacaoRoute =
+  AuthenticatedPainelVerificacaoRouteImport.update({
+    id: '/verificacao',
+    path: '/verificacao',
     getParentRoute: () => AuthenticatedPainelRoute,
   } as any)
 
@@ -101,7 +143,13 @@ export interface FileRoutesByFullPath {
   '/termos': typeof TermosRoute
   '/painel': typeof AuthenticatedPainelRouteWithChildren
   '/profissional/$slug': typeof ProfissionalSlugRoute
+  '/painel/avaliacoes': typeof AuthenticatedPainelAvaliacoesRoute
+  '/painel/disponibilidade': typeof AuthenticatedPainelDisponibilidadeRoute
+  '/painel/ganhos': typeof AuthenticatedPainelGanhosRoute
   '/painel/perfil': typeof AuthenticatedPainelPerfilRoute
+  '/painel/portfolio': typeof AuthenticatedPainelPortfolioRoute
+  '/painel/servicos': typeof AuthenticatedPainelServicosRoute
+  '/painel/verificacao': typeof AuthenticatedPainelVerificacaoRoute
   '/painel/': typeof AuthenticatedPainelIndexRoute
 }
 export interface FileRoutesByTo {
@@ -114,7 +162,13 @@ export interface FileRoutesByTo {
   '/privacidade': typeof PrivacidadeRoute
   '/termos': typeof TermosRoute
   '/profissional/$slug': typeof ProfissionalSlugRoute
+  '/painel/avaliacoes': typeof AuthenticatedPainelAvaliacoesRoute
+  '/painel/disponibilidade': typeof AuthenticatedPainelDisponibilidadeRoute
+  '/painel/ganhos': typeof AuthenticatedPainelGanhosRoute
   '/painel/perfil': typeof AuthenticatedPainelPerfilRoute
+  '/painel/portfolio': typeof AuthenticatedPainelPortfolioRoute
+  '/painel/servicos': typeof AuthenticatedPainelServicosRoute
+  '/painel/verificacao': typeof AuthenticatedPainelVerificacaoRoute
   '/painel': typeof AuthenticatedPainelIndexRoute
 }
 export interface FileRoutesById {
@@ -130,7 +184,13 @@ export interface FileRoutesById {
   '/termos': typeof TermosRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRouteWithChildren
   '/profissional/$slug': typeof ProfissionalSlugRoute
+  '/_authenticated/painel/avaliacoes': typeof AuthenticatedPainelAvaliacoesRoute
+  '/_authenticated/painel/disponibilidade': typeof AuthenticatedPainelDisponibilidadeRoute
+  '/_authenticated/painel/ganhos': typeof AuthenticatedPainelGanhosRoute
   '/_authenticated/painel/perfil': typeof AuthenticatedPainelPerfilRoute
+  '/_authenticated/painel/portfolio': typeof AuthenticatedPainelPortfolioRoute
+  '/_authenticated/painel/servicos': typeof AuthenticatedPainelServicosRoute
+  '/_authenticated/painel/verificacao': typeof AuthenticatedPainelVerificacaoRoute
   '/_authenticated/painel/': typeof AuthenticatedPainelIndexRoute
 }
 export interface FileRouteTypes {
@@ -146,7 +206,13 @@ export interface FileRouteTypes {
     | '/termos'
     | '/painel'
     | '/profissional/$slug'
+    | '/painel/avaliacoes'
+    | '/painel/disponibilidade'
+    | '/painel/ganhos'
     | '/painel/perfil'
+    | '/painel/portfolio'
+    | '/painel/servicos'
+    | '/painel/verificacao'
     | '/painel/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -159,7 +225,13 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/termos'
     | '/profissional/$slug'
+    | '/painel/avaliacoes'
+    | '/painel/disponibilidade'
+    | '/painel/ganhos'
     | '/painel/perfil'
+    | '/painel/portfolio'
+    | '/painel/servicos'
+    | '/painel/verificacao'
     | '/painel'
   id:
     | '__root__'
@@ -174,7 +246,13 @@ export interface FileRouteTypes {
     | '/termos'
     | '/_authenticated/painel'
     | '/profissional/$slug'
+    | '/_authenticated/painel/avaliacoes'
+    | '/_authenticated/painel/disponibilidade'
+    | '/_authenticated/painel/ganhos'
     | '/_authenticated/painel/perfil'
+    | '/_authenticated/painel/portfolio'
+    | '/_authenticated/painel/servicos'
+    | '/_authenticated/painel/verificacao'
     | '/_authenticated/painel/'
   fileRoutesById: FileRoutesById
 }
@@ -277,6 +355,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPainelIndexRouteImport
       parentRoute: typeof AuthenticatedPainelRoute
     }
+    '/_authenticated/painel/avaliacoes': {
+      id: '/_authenticated/painel/avaliacoes'
+      path: '/avaliacoes'
+      fullPath: '/painel/avaliacoes'
+      preLoaderRoute: typeof AuthenticatedPainelAvaliacoesRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/disponibilidade': {
+      id: '/_authenticated/painel/disponibilidade'
+      path: '/disponibilidade'
+      fullPath: '/painel/disponibilidade'
+      preLoaderRoute: typeof AuthenticatedPainelDisponibilidadeRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/ganhos': {
+      id: '/_authenticated/painel/ganhos'
+      path: '/ganhos'
+      fullPath: '/painel/ganhos'
+      preLoaderRoute: typeof AuthenticatedPainelGanhosRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
     '/_authenticated/painel/perfil': {
       id: '/_authenticated/painel/perfil'
       path: '/perfil'
@@ -284,16 +383,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPainelPerfilRouteImport
       parentRoute: typeof AuthenticatedPainelRoute
     }
+    '/_authenticated/painel/portfolio': {
+      id: '/_authenticated/painel/portfolio'
+      path: '/portfolio'
+      fullPath: '/painel/portfolio'
+      preLoaderRoute: typeof AuthenticatedPainelPortfolioRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/servicos': {
+      id: '/_authenticated/painel/servicos'
+      path: '/servicos'
+      fullPath: '/painel/servicos'
+      preLoaderRoute: typeof AuthenticatedPainelServicosRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/verificacao': {
+      id: '/_authenticated/painel/verificacao'
+      path: '/verificacao'
+      fullPath: '/painel/verificacao'
+      preLoaderRoute: typeof AuthenticatedPainelVerificacaoRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
   }
 }
 
 interface AuthenticatedPainelRouteChildren {
+  AuthenticatedPainelAvaliacoesRoute: typeof AuthenticatedPainelAvaliacoesRoute
+  AuthenticatedPainelDisponibilidadeRoute: typeof AuthenticatedPainelDisponibilidadeRoute
+  AuthenticatedPainelGanhosRoute: typeof AuthenticatedPainelGanhosRoute
   AuthenticatedPainelPerfilRoute: typeof AuthenticatedPainelPerfilRoute
+  AuthenticatedPainelPortfolioRoute: typeof AuthenticatedPainelPortfolioRoute
+  AuthenticatedPainelServicosRoute: typeof AuthenticatedPainelServicosRoute
+  AuthenticatedPainelVerificacaoRoute: typeof AuthenticatedPainelVerificacaoRoute
   AuthenticatedPainelIndexRoute: typeof AuthenticatedPainelIndexRoute
 }
 
 const AuthenticatedPainelRouteChildren: AuthenticatedPainelRouteChildren = {
+  AuthenticatedPainelAvaliacoesRoute: AuthenticatedPainelAvaliacoesRoute,
+  AuthenticatedPainelDisponibilidadeRoute:
+    AuthenticatedPainelDisponibilidadeRoute,
+  AuthenticatedPainelGanhosRoute: AuthenticatedPainelGanhosRoute,
   AuthenticatedPainelPerfilRoute: AuthenticatedPainelPerfilRoute,
+  AuthenticatedPainelPortfolioRoute: AuthenticatedPainelPortfolioRoute,
+  AuthenticatedPainelServicosRoute: AuthenticatedPainelServicosRoute,
+  AuthenticatedPainelVerificacaoRoute: AuthenticatedPainelVerificacaoRoute,
   AuthenticatedPainelIndexRoute: AuthenticatedPainelIndexRoute,
 }
 

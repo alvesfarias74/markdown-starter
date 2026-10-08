@@ -3,7 +3,7 @@ import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Check, Copy, ExternalLink, Share2, Star } from "lucide-react";
+import { Check, Copy, ExternalLink, Share2 } from "lucide-react";
 import { myProQuery } from "@/lib/my-pro-query";
 import { dashboardQuery } from "@/lib/dashboard-query";
 import { sendQuote, setAvailability } from "@/lib/dashboard.functions";
@@ -195,4 +195,3 @@ function QuoteDialog({ opp, onClose }: { opp: Opp | null; onClose: () => void })
   );
 }
 
-export { Star };

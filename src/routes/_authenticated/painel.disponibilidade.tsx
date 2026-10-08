@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { myProQuery } from "@/lib/my-pro-query";
 import { saveProfessional } from "@/lib/professionals.functions";
-import { BR_STATES, WEEK_DAYS, type ProfessionalPatch } from "@/lib/professional";
+import { BR_STATES, WEEK_DAYS, type ProfessionalPatch, type ProfessionalView } from "@/lib/professional";
 import { Chip, Field, inputClass } from "@/components/site/Field";
 
 export const Route = createFileRoute("/_authenticated/painel/disponibilidade")({
@@ -58,7 +58,7 @@ function Disponibilidade() {
             try {
               await save({ data: {
                 is_available: avail,
-                schedule: { days: days as ProfessionalPatch["schedule"] extends infer S ? S extends { days: infer D } ? D : never : never, hours: hours.trim() },
+                schedule: { days: days as ProfessionalView["schedule"]["days"], hours: hours.trim() },
                 city: city.trim(), state: state as ProfessionalPatch["state"],
                 neighborhoods: hoods.split(",").map((s) => s.trim()).filter(Boolean).slice(0, 30),
                 max_distance_km: d !== null && Number.isFinite(d) ? d : null,
