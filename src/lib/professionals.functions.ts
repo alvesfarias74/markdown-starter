@@ -54,7 +54,7 @@ export const getMyProfessional = createServerFn({ method: "GET" })
 
 export const saveAccount = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => accountSchema.parse(d))
+  .validator((d: unknown) => accountSchema.parse(d))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     const { error } = await supabase.from("profiles").upsert({
@@ -85,7 +85,7 @@ async function ensurePro(supabase: SupabaseClient<Database>, userId: string) {
 
 export const saveProfessional = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => professionalPatchSchema.parse(d))
+  .validator((d: unknown) => professionalPatchSchema.parse(d))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     await ensurePro(supabase, userId);
@@ -132,7 +132,7 @@ export const publishProfessional = createServerFn({ method: "POST" })
 
 export const addPortfolioItem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => portfolioItemSchema.parse(d))
+  .validator((d: unknown) => portfolioItemSchema.parse(d))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     const all = [...data.photos, data.before_photo, data.after_photo].filter(Boolean) as string[];
@@ -146,7 +146,7 @@ export const addPortfolioItem = createServerFn({ method: "POST" })
 
 export const updatePortfolioItem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => portfolioItemSchema.extend({ id: z.string().uuid() }).parse(d))
+  .validator((d: unknown) => portfolioItemSchema.extend({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     const { id, ...rest } = data;
@@ -160,7 +160,7 @@ export const updatePortfolioItem = createServerFn({ method: "POST" })
 
 export const deletePortfolioItem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .validator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
     const { error } = await context.supabase.from("portfolio_items").delete().eq("id", data.id);
     if (error) throw new Error("Não foi possível remover.");
@@ -170,7 +170,7 @@ export const deletePortfolioItem = createServerFn({ method: "POST" })
 /* ---------- Público ---------- */
 
 export const getPublicProfessional = createServerFn({ method: "GET" })
-  .inputValidator((d: unknown) => z.object({ slug: z.string().min(1).max(80) }).parse(d))
+  .validator((d: unknown) => z.object({ slug: z.string().min(1).max(80) }).parse(d))
   .handler(async ({ data }) => {
     const client = publicClient();
     const { data: pro } = await client.from("professionals").select("*").eq("slug", data.slug).eq("status", "published").maybeSingle();
@@ -182,7 +182,7 @@ export const getPublicProfessional = createServerFn({ method: "GET" })
 const clean = (s?: string) => s?.replace(/[,()%*\\]/g, " ").trim().slice(0, 80) || undefined;
 
 export const searchProfessionals = createServerFn({ method: "GET" })
-  .inputValidator((d: unknown) =>
+  .validator((d: unknown) =>
     z.object({ q: z.string().max(100).optional(), local: z.string().max(100).optional(), categoria: z.string().max(60).optional() }).parse(d),
   )
   .handler(async ({ data }) => {

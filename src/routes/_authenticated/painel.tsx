@@ -8,6 +8,7 @@ const NAV = [
   { to: "/painel/portfolio", label: "Portfólio" },
   { to: "/painel/disponibilidade", label: "Disponibilidade" },
   { to: "/painel/verificacao", label: "Verificação" },
+  { to: "/painel/perfil", label: "Meu perfil" },
 ] as const;
 
 export const Route = createFileRoute("/_authenticated/painel")({
