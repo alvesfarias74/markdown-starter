@@ -46,7 +46,7 @@ export const getMyProfessional = createServerFn({ method: "GET" })
         terms_accepted_at: null,
       },
       accountSaved: !!account,
-      pro: pro ? { ...view!, id: pro.id, status: pro.status, raw_avatar: pro.avatar_url } : null,
+      pro: pro && view ? { ...view, id: pro.id, status: pro.status, raw_avatar: pro.avatar_url } : null,
       portfolioRaw: portfolio ?? [],
       completeness,
     };

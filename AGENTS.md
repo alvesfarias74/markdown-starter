@@ -22,3 +22,5 @@
 - Platform commission is computed in the `compute_job_fees` trigger; `src/lib/commission.ts` mirrors it for display only — change both together.
 - Verification documents live in the private `verification-docs` bucket (owner-only) — never in the profile media bucket, which is readable for public pages.
 - Dashboard data comes from one `getDashboard` server fn (`src/lib/dashboard.functions.ts`); `/painel` layout holds the section nav.
+- Opportunity eligibility is enforced by `matches_opportunity` in database policies and quote submission; dashboard totals are aggregated by `dashboard_totals` independently of recent-item lists, preventing truncation and bypasses.
+- Job owners may register manual jobs and change lifecycle status only; the fee trigger preserves identity, amounts and payout fields and validates transitions to prevent forged earnings.

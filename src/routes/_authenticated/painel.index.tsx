@@ -28,6 +28,7 @@ function Painel() {
   const { items, percent } = data.completeness;
   const published = data.pro?.status === "published";
   const firstName = (data.account.full_name || "profissional").split(" ")[0];
+  const [activeTab, setActiveTab] = useState<"opps" | "quotes">("opps");
 
   if (!dash.pro) {
     return (
@@ -39,8 +40,8 @@ function Painel() {
     );
   }
 
-  const s = dash.stats!;
-  const [activeTab, setActiveTab] = useState<"opps" | "quotes">("opps");
+  const s = dash.stats;
+  if (!s) return null;
 
   type DashboardCard = {
     label: string;
