@@ -488,6 +488,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      has_sent_quote: { Args: { _request: string }; Returns: boolean }
       matches_opportunity: {
         Args: {
           _category: string
