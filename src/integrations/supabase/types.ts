@@ -476,6 +476,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_quote_request: {
+        Args: { _professional: string; _request: string }
+        Returns: boolean
+      }
       dashboard_totals: { Args: { _professional: string }; Returns: Json }
       has_role: {
         Args: {
