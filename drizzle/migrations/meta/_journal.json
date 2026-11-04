@@ -43,6 +43,13 @@
       "when": 1793822194453,
       "tag": "0005_avoid_request_quote_policy_recursion",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793822289633,
+      "tag": "0006_qualify_opportunity_request_fields",
+      "breakpoints": true
     }
   ]
 }
