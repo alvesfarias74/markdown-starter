@@ -476,10 +476,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      dashboard_totals: { Args: { _professional: string }; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
+        }
+        Returns: boolean
+      }
+      matches_opportunity: {
+        Args: {
+          _category: string
+          _city: string
+          _date: string
+          _neighborhood: string
+          _professional: string
+          _service: string
+          _state: string
+          _target: string
         }
         Returns: boolean
       }
