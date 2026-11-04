@@ -12,6 +12,8 @@ export const Route = createFileRoute("/auth")({
       { name: "description", content: "Acesse sua conta na A Seu Serviço." },
       { property: "og:title", content: "Entrar — A Seu Serviço" },
       { property: "og:description", content: "Acesse sua conta na A Seu Serviço." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
     ],
   }),

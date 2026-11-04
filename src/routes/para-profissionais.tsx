@@ -9,6 +9,8 @@ export const Route = createFileRoute("/para-profissionais")({
       { name: "description", content: "Crie sua vitrine profissional, receba pedidos de orçamento e conquiste novos clientes na sua região." },
       { property: "og:title", content: "Ofereça seus serviços — A Seu Serviço" },
       { property: "og:description", content: "Crie sua vitrine profissional e conquiste novos clientes na sua região." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ProPage,

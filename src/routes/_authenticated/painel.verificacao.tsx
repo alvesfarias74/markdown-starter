@@ -56,7 +56,7 @@ function Verificacao() {
         <div><p className="text-sm text-muted-foreground">Status</p><p className="font-display text-xl font-bold">{VERIFICATION_STATUS[status]}</p></div>
       </div>
       {status === "needs_fix" && data.verification?.reviewer_notes && <p className="mt-3 rounded-xl bg-highlight/20 p-4 text-sm">O que corrigir: {data.verification.reviewer_notes}</p>}
-      {status === "pending" && <p className="mt-3 rounded-xl bg-accent p-4 text-sm text-accent-foreground">Recebemos seus documentos. Você será avisado quando a análise terminar.</p>}
+      {status === "pending" && <p className="mt-3 rounded-xl bg-accent p-4 text-sm text-accent-foreground">Recebemos seus documentos. Acompanhe o resultado da análise nesta página.</p>}
 
       {canSend && (
         <div className="mt-6 space-y-4 rounded-3xl border bg-card p-6">
