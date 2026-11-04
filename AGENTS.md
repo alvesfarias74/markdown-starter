@@ -18,3 +18,7 @@
 - Media is in the private `professional-media` bucket under `{userId}/...`; pages show signed URLs generated server-side — workspace blocks public buckets.
 - All professional reads/writes go through `src/lib/professionals.functions.ts` (zod-validated server functions); shared rules (completeness, publish requirements, options) live in `src/lib/professional.ts`.
 - Profile wizard is `/painel/perfil?passo=N`; review step renders the same `ProfessionalProfileView` as the public `/profissional/$slug` page — preview must match public page.
+- Marketplace flow tables: `service_requests` → `quotes` → `jobs` → `reviews`; `verification_requests` per professional. Job fees, profile rating/service counts and is_verified are set only by DB triggers — clients never write money or reputation fields.
+- Platform commission is computed in the `compute_job_fees` trigger; `src/lib/commission.ts` mirrors it for display only — change both together.
+- Verification documents live in the private `verification-docs` bucket (owner-only) — never in the profile media bucket, which is readable for public pages.
+- Dashboard data comes from one `getDashboard` server fn (`src/lib/dashboard.functions.ts`); `/painel` layout holds the section nav.
