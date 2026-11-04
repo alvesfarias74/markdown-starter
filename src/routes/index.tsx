@@ -12,6 +12,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Profissionais da sua região prontos para realizar o serviço que você precisa." },
       { property: "og:title", content: "A Seu Serviço — Encontre quem faz" },
       { property: "og:description", content: "Profissionais da sua região prontos para realizar o serviço que você precisa." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,

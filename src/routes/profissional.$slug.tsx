@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getPublicProfessional } from "@/lib/professionals.functions";
 import { ProfessionalProfileView } from "@/components/pro/ProfessionalProfileView";
+import { pageHead } from "@/lib/page-head";
 
 const proQuery = (slug: string) =>
   queryOptions({ queryKey: ["professional", slug], queryFn: () => getPublicProfessional({ data: { slug } }) });
@@ -13,10 +14,10 @@ export const Route = createFileRoute("/profissional/$slug")({
     return pro;
   },
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: "Profissional não encontrado — A Seu Serviço" }, { name: "robots", content: "noindex" }] };
+    if (!loaderData) return pageHead("Profissional não encontrado — A Seu Serviço", "Este perfil não existe ou não está publicado.", true);
     const title = `${loaderData.display_name} — ${loaderData.headline ?? "Profissional"}${loaderData.city ? ` em ${loaderData.city}` : ""} | A Seu Serviço`;
     const desc = (loaderData.bio ?? `${loaderData.headline ?? "Profissional"} na A Seu Serviço.`).slice(0, 155);
-    return { meta: [{ title }, { name: "description", content: desc }, { property: "og:title", content: title }, { property: "og:description", content: desc }, { property: "og:type", content: "profile" }] };
+    return { meta: [{ title }, { name: "description", content: desc }, { property: "og:title", content: title }, { property: "og:description", content: desc }, { property: "og:type", content: "profile" }, { name: "twitter:card", content: "summary_large_image" }] };
   },
   notFoundComponent: () => (
     <section className="mx-auto max-w-md px-4 pt-20 text-center">

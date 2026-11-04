@@ -1,0 +1,3 @@
+CREATE OR REPLACE FUNCTION public.can_quote_request(_professional uuid, _request uuid) RETURNS boolean LANGUAGE sql STABLE SECURITY INVOKER SET search_path=public AS $$ SELECT EXISTS (SELECT 1 FROM public.service_requests r WHERE r.id=_request AND r.status='open' AND public.matches_opportunity(_professional,r.target_professional_id,r.category_slug,r.service_name,r.city,r.state,r.neighborhood,r.desired_date)); $$;
+REVOKE ALL ON FUNCTION public.can_quote_request(uuid,uuid) FROM PUBLIC,anon;
+GRANT EXECUTE ON FUNCTION public.can_quote_request(uuid,uuid) TO authenticated,service_role;

@@ -13,6 +13,8 @@ export const Route = createFileRoute("/cadastro-profissional")({
       { name: "description", content: "Crie sua vitrine profissional gratuita e mostre seu trabalho para clientes da sua região." },
       { property: "og:title", content: "Cadastre seus serviços grátis — A Seu Serviço" },
       { property: "og:description", content: "Crie sua vitrine profissional gratuita e mostre seu trabalho." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: SignupPage,

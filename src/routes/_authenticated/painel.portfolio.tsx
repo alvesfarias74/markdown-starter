@@ -3,9 +3,10 @@ import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { myProQuery } from "@/lib/my-pro-query";
 import { categoryOfService } from "@/lib/services";
 import { PortfolioManager } from "@/components/pro/PortfolioManager";
+import { pageHead } from "@/lib/page-head";
 
 export const Route = createFileRoute("/_authenticated/painel/portfolio")({
-  head: () => ({ meta: [{ title: "Meu portfólio — A Seu Serviço" }, { name: "robots", content: "noindex" }] }),
+  head: () => pageHead("Meu portfólio — A Seu Serviço", "Organize as fotos e informações dos seus trabalhos profissionais.", true),
   loader: ({ context }) => context.queryClient.ensureQueryData(myProQuery()),
   errorComponent: () => <p className="px-4 pt-20 text-center">Não foi possível carregar seu portfólio.</p>,
   component: Portfolio,

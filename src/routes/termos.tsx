@@ -7,6 +7,8 @@ export const Route = createFileRoute("/termos")({
       { name: "description", content: "Termos de Uso da plataforma A Seu Serviço." },
       { property: "og:title", content: "Termos de Uso — A Seu Serviço" },
       { property: "og:description", content: "Termos de Uso da plataforma A Seu Serviço." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: () => (

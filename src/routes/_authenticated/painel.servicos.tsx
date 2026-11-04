@@ -9,9 +9,10 @@ import { updateJobStatus, createJob } from "@/lib/dashboard.functions";
 import { brl, JOB_STATUS } from "@/lib/commission";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Field, inputClass } from "@/components/site/Field";
+import { pageHead } from "@/lib/page-head";
 
 export const Route = createFileRoute("/_authenticated/painel/servicos")({
-  head: () => ({ meta: [{ title: "Meus serviços — A Seu Serviço" }, { name: "robots", content: "noindex" }] }),
+  head: () => pageHead("Meus serviços — A Seu Serviço", "Acompanhe seus serviços agendados, em andamento, concluídos e cancelados.", true),
   loader: ({ context }) => context.queryClient.ensureQueryData(dashboardQuery()),
   errorComponent: () => <p className="px-4 pt-20 text-center">Não foi possível carregar seus serviços.</p>,
   component: Servicos,

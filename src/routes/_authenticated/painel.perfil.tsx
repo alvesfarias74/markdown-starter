@@ -17,6 +17,7 @@ import { Chip, Field, inputClass } from "@/components/site/Field";
 import { ProfessionalProfileView } from "@/components/pro/ProfessionalProfileView";
 import { PickButton, PortfolioManager } from "@/components/pro/PortfolioManager";
 import { Progress } from "@/components/ui/progress";
+import { pageHead } from "@/lib/page-head";
 
 const TOTAL = 10;
 const TITLES = ["Dados básicos", "Profissão", "Experiência", "Apresentação", "Região de atendimento", "Disponibilidade", "Preço", "Portfólio", "Foto de perfil", "Revisão"];
@@ -26,7 +27,7 @@ export const Route = createFileRoute("/_authenticated/painel/perfil")({
     const n = Number(s["passo"]);
     return { passo: Number.isInteger(n) && n >= 1 && n <= TOTAL ? n : 1 };
   },
-  head: () => ({ meta: [{ title: "Meu perfil profissional — A Seu Serviço" }, { name: "description", content: "Monte sua vitrine profissional." }, { name: "robots", content: "noindex" }] }),
+  head: () => pageHead("Meu perfil profissional — A Seu Serviço", "Monte sua vitrine profissional.", true),
   loader: ({ context }) => context.queryClient.ensureQueryData(myProQuery()),
   errorComponent: () => <p className="px-4 pt-20 text-center">Não foi possível carregar seu cadastro.</p>,
   component: Wizard,

@@ -7,9 +7,10 @@ import { Star } from "lucide-react";
 import { dashboardQuery } from "@/lib/dashboard-query";
 import { respondReview } from "@/lib/dashboard.functions";
 import { inputClass } from "@/components/site/Field";
+import { pageHead } from "@/lib/page-head";
 
 export const Route = createFileRoute("/_authenticated/painel/avaliacoes")({
-  head: () => ({ meta: [{ title: "Minhas avaliações — A Seu Serviço" }, { name: "robots", content: "noindex" }] }),
+  head: () => pageHead("Minhas avaliações — A Seu Serviço", "Veja sua reputação e responda às avaliações dos clientes.", true),
   loader: ({ context }) => context.queryClient.ensureQueryData(dashboardQuery()),
   errorComponent: () => <p className="px-4 pt-20 text-center">Não foi possível carregar suas avaliações.</p>,
   component: Avaliacoes,

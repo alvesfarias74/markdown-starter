@@ -7,6 +7,8 @@ export const Route = createFileRoute("/privacidade")({
       { name: "description", content: "Como a A Seu Serviço trata seus dados pessoais." },
       { property: "og:title", content: "Política de Privacidade — A Seu Serviço" },
       { property: "og:description", content: "Como a A Seu Serviço trata seus dados pessoais." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: () => (

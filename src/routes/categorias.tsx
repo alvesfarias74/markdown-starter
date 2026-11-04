@@ -8,6 +8,8 @@ export const Route = createFileRoute("/categorias")({
       { name: "description", content: "Elétrica, hidráulica, limpeza, construção e muito mais. Escolha a categoria do serviço." },
       { property: "og:title", content: "Categorias de serviços — A Seu Serviço" },
       { property: "og:description", content: "Elétrica, hidráulica, limpeza, construção e muito mais." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: () => (

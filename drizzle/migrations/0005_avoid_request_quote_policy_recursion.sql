@@ -1,0 +1,5 @@
+CREATE OR REPLACE FUNCTION public.has_sent_quote(_request uuid) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public AS $$ SELECT EXISTS (SELECT 1 FROM public.quotes q JOIN public.professionals p ON p.id=q.professional_id WHERE q.request_id=_request AND p.user_id=auth.uid()); $$;
+REVOKE ALL ON FUNCTION public.has_sent_quote(uuid) FROM PUBLIC,anon;
+GRANT EXECUTE ON FUNCTION public.has_sent_quote(uuid) TO authenticated,service_role;
+DROP POLICY "Professionals see compatible requests" ON public.service_requests;
+CREATE POLICY "Professionals see compatible requests" ON public.service_requests FOR SELECT TO authenticated USING ((status='open' AND EXISTS (SELECT 1 FROM public.professionals p WHERE p.user_id=auth.uid() AND public.matches_opportunity(p.id,target_professional_id,category_slug,service_name,city,state,neighborhood,desired_date))) OR public.has_sent_quote(id));

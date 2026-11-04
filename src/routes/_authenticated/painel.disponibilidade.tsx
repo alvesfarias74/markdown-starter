@@ -7,9 +7,10 @@ import { myProQuery } from "@/lib/my-pro-query";
 import { saveProfessional } from "@/lib/professionals.functions";
 import { BR_STATES, WEEK_DAYS, type ProfessionalPatch, type ProfessionalView } from "@/lib/professional";
 import { Chip, Field, inputClass } from "@/components/site/Field";
+import { pageHead } from "@/lib/page-head";
 
 export const Route = createFileRoute("/_authenticated/painel/disponibilidade")({
-  head: () => ({ meta: [{ title: "Disponibilidade — A Seu Serviço" }, { name: "robots", content: "noindex" }] }),
+  head: () => pageHead("Disponibilidade — A Seu Serviço", "Configure dias, horários e sua área de atendimento profissional.", true),
   loader: ({ context }) => context.queryClient.ensureQueryData(myProQuery()),
   errorComponent: () => <p className="px-4 pt-20 text-center">Não foi possível carregar.</p>,
   component: Disponibilidade,

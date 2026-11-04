@@ -10,9 +10,10 @@ import { myProQuery } from "@/lib/my-pro-query";
 import { submitVerification } from "@/lib/dashboard.functions";
 import { VERIFICATION_STATUS } from "@/lib/commission";
 import { Field, inputClass } from "@/components/site/Field";
+import { pageHead } from "@/lib/page-head";
 
 export const Route = createFileRoute("/_authenticated/painel/verificacao")({
-  head: () => ({ meta: [{ title: "Verificação — A Seu Serviço" }, { name: "robots", content: "noindex" }] }),
+  head: () => pageHead("Verificação — A Seu Serviço", "Envie documentos privados e acompanhe a verificação profissional.", true),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(dashboardQuery()), context.queryClient.ensureQueryData(myProQuery())]),
   errorComponent: () => <p className="px-4 pt-20 text-center">Não foi possível carregar.</p>,
   component: Verificacao,
@@ -55,7 +56,7 @@ function Verificacao() {
         <div><p className="text-sm text-muted-foreground">Status</p><p className="font-display text-xl font-bold">{VERIFICATION_STATUS[status]}</p></div>
       </div>
       {status === "needs_fix" && data.verification?.reviewer_notes && <p className="mt-3 rounded-xl bg-highlight/20 p-4 text-sm">O que corrigir: {data.verification.reviewer_notes}</p>}
-      {status === "pending" && <p className="mt-3 rounded-xl bg-accent p-4 text-sm text-accent-foreground">Recebemos seus documentos. Você será avisado quando a análise terminar.</p>}
+      {status === "pending" && <p className="mt-3 rounded-xl bg-accent p-4 text-sm text-accent-foreground">Recebemos seus documentos. Acompanhe o resultado da análise nesta página.</p>}
 
       {canSend && (
         <div className="mt-6 space-y-4 rounded-3xl border bg-card p-6">

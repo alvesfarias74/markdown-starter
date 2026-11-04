@@ -24,6 +24,8 @@ export const Route = createFileRoute("/buscar")({
       { name: "description", content: "Encontre profissionais na sua cidade ou região." },
       { property: "og:title", content: "Buscar profissionais — A Seu Serviço" },
       { property: "og:description", content: "Encontre profissionais na sua cidade ou região." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   errorComponent: () => <p className="px-4 pt-20 text-center">Busca indisponível no momento.</p>,
