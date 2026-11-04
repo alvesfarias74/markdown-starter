@@ -10,9 +10,10 @@ import { myProQuery } from "@/lib/my-pro-query";
 import { submitVerification } from "@/lib/dashboard.functions";
 import { VERIFICATION_STATUS } from "@/lib/commission";
 import { Field, inputClass } from "@/components/site/Field";
+import { pageHead } from "@/lib/page-head";
 
 export const Route = createFileRoute("/_authenticated/painel/verificacao")({
-  head: () => ({ meta: [{ title: "Verificação — A Seu Serviço" }, { name: "robots", content: "noindex" }] }),
+  head: () => pageHead("Verificação — A Seu Serviço", "Envie documentos privados e acompanhe a verificação profissional.", true),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(dashboardQuery()), context.queryClient.ensureQueryData(myProQuery())]),
   errorComponent: () => <p className="px-4 pt-20 text-center">Não foi possível carregar.</p>,
   component: Verificacao,

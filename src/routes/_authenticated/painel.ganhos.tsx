@@ -2,9 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { dashboardQuery } from "@/lib/dashboard-query";
 import { brl, PLATFORM_COMMISSION_LABEL } from "@/lib/commission";
+import { pageHead } from "@/lib/page-head";
 
 export const Route = createFileRoute("/_authenticated/painel/ganhos")({
-  head: () => ({ meta: [{ title: "Meus ganhos — A Seu Serviço" }, { name: "robots", content: "noindex" }] }),
+  head: () => pageHead("Meus ganhos — A Seu Serviço", "Consulte seus saldos, repasses e comissão na A Seu Serviço.", true),
   loader: ({ context }) => context.queryClient.ensureQueryData(dashboardQuery()),
   errorComponent: () => <p className="px-4 pt-20 text-center">Não foi possível carregar seus ganhos.</p>,
   component: Ganhos,

@@ -12,9 +12,10 @@ import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Field, inputClass } from "@/components/site/Field";
+import { pageHead } from "@/lib/page-head";
 
 export const Route = createFileRoute("/_authenticated/painel/")({
-  head: () => ({ meta: [{ title: "Meu painel — A Seu Serviço" }, { name: "description", content: "Seu escritório digital na A Seu Serviço." }, { name: "robots", content: "noindex" }] }),
+  head: () => pageHead("Meu painel — A Seu Serviço", "Seu escritório digital na A Seu Serviço.", true),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(myProQuery()), context.queryClient.ensureQueryData(dashboardQuery())]),
   errorComponent: () => <p className="px-4 pt-20 text-center">Não foi possível carregar seu painel.</p>,
   component: Painel,

@@ -24,3 +24,4 @@
 - Dashboard data comes from one `getDashboard` server fn (`src/lib/dashboard.functions.ts`); `/painel` layout holds the section nav.
 - Opportunity eligibility is enforced by `matches_opportunity` in database policies and quote submission; dashboard totals are aggregated by `dashboard_totals` independently of recent-item lists, preventing truncation and bypasses.
 - Job owners may register manual jobs and change lifecycle status only; the fee trigger preserves identity, amounts and payout fields and validates transitions to prevent forged earnings.
+- Private content routes use `pageHead` for consistent per-page metadata without revealing account data.
