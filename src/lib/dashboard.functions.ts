@@ -113,7 +113,7 @@ export const sendQuote = createServerFn({ method: "POST" })
     if (!pro.is_available) throw new Error("Ative sua disponibilidade para enviar orçamentos.");
     const { data: req } = await supabase.from("service_requests").select("*").eq("id", data.request_id).maybeSingle();
     if (!req || req.status !== "open") throw new Error("Esta solicitação não está mais disponível.");
-    const { data: compatible, error: matchError } = await supabase.rpc("matches_opportunity", { _professional: pro.id, _target: req.target_professional_id, _category: req.category_slug, _service: req.service_name, _city: req.city, _state: req.state, _neighborhood: req.neighborhood, _date: req.desired_date });
+    const { data: compatible, error: matchError } = await supabase.rpc("can_quote_request", { _professional: pro.id, _request: req.id });
     if (matchError || !compatible) throw new Error("Esta solicitação não é compatível com seu atendimento.");
     const { error } = await supabase.from("quotes").insert({ ...data, professional_id: pro.id });
     if (error) throw new Error(error.code === "23505" ? "Você já enviou orçamento para esta solicitação." : "Não foi possível enviar o orçamento.");
